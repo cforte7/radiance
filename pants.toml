@@ -1,2 +1,9 @@
 [GLOBAL]
-pants_version = "2.23"
+pants_version = "2.23.0"
+
+backend_packages = [
+  "pants.backend.experimental.go",
+  "pants.backend.experimental.cc",
+  "pants.backend.experimental.cc.lint.clangformat",
+  "pants.backend.docker",
+]

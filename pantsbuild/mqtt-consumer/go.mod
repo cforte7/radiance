@@ -1,6 +1,6 @@
 module github.com/cforte7/radiance
 
-go 1.23.3
+go 1.23
 
 require (
 	github.com/eclipse/paho.mqtt.golang v1.5.0 // indirect

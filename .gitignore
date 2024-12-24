@@ -1,3 +1,4 @@
 # Pants workspace files
 /.pants.d
 /dist/
+/docker_data

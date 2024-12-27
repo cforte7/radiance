@@ -1,5 +1,8 @@
 {
     "particle.targetDevice": "e00fce68d7d3d9c1ac7d8458",
     "particle.targetPlatform": "argon",
-    "particle.firmwareVersion": "6.1.1"
+    "particle.firmwareVersion": "6.1.1",
+    "files.associations": {
+        "ostream": "cpp"
+    }
 }

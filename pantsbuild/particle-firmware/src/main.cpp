@@ -9,12 +9,13 @@
 #define DELAY_SECONDS 1000
 #define DEVICE_ID "device_0"
 #define TOPIC "db/append/moisture"
+#define LOG_TOPIC "testtopic/message"
 #define BROKER_HOST "10.0.0.57"
 #define BROKER_PORT 5653
 #define ONE_DAY_MILLIS (24 * 60 * 60 * 1000)
 
 unsigned long lastSync = millis();
-void callback(char* topic, byte* payload, unsigned int length);
+// void callback(char* topic, byte* payload, unsigned int length);
 
 // recieve message
 void callback(char* topic, byte* payload, unsigned int length) {
@@ -101,9 +102,9 @@ void loop() {
   //   client.connect(System.deviceID());  
   //     Particle.publish("logging", "Client has reconnected.");
   // }
-  char * payload = create_payload();
+  // char * payload = create_payload();
   Particle.publish("logging", "Publishing data to MQTT broker.");
-  client.publish(TOPIC, payload);
+  client.publish(LOG_TOPIC, "testdata");
   Particle.publish("logging", "Delying now.");
   delay(DELAY_SECONDS);
 }

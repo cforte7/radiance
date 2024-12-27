@@ -1,6 +1,7 @@
 # Radiance Soil Monitoring
 
 <img src="images/radiance.png" alt="radiance" width="200" />
+
 > "A divine weapon that causes damage and a bright burning effect that lays waste to nearby enemies."
 >
 > \- Radiance tool tip, Dota 2

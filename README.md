@@ -4,6 +4,22 @@ This is a monorepo for a self hosted soil moisture monitoring stack. The monitor
 is done with a Particle device collecting data from a capacitive soil moisture sensor
 and sent to an MQTT broker.
 
+## Running the Stack
+
+### Requirements
+
+- Docker and `docker-compose`
+- Particle Board and sensor (More specifics forthcoming)
+
+### Applications
+
+This stack uses docker-compse to handle running the necessary applications. You can
+start it in the same way as any other  
+
+```bash
+docker-compose up -d
+```
+
 ## Particle Firmware
 
 The firmware for the particle board is responsible for collecting the data
@@ -12,6 +28,9 @@ will need to edit the host manually yourself before flashing your device.
 
 The firmware uses QOS1 for messages and also handles managing disconnections automatically.
 Logs can be read via the serial port for debugging purposes.
+
+I am using an Argon board but I am sure a more recent version will do as well. This
+is currently done on OS 6.11.
 
 ### Firmware TODO
 
@@ -59,3 +78,10 @@ If using the schema above, will be `db/append/moisture`. with the content of:
 ### MQTT TODO
 
 - Automate schema init
+
+## Data Visualization
+
+TBD what this is. May try to experiment with Go+Templ/HTMX. Most likely going
+to do something strictly for the learning experience. But regardless of the
+exact choice, this will also be hosted on the same machine as the mqtt broker
+with docker-compose.

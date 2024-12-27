@@ -3,6 +3,8 @@
     "particle.targetPlatform": "argon",
     "particle.firmwareVersion": "6.1.1",
     "files.associations": {
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "unordered_map": "cpp",
+        "initializer_list": "cpp"
     }
 }

@@ -4,6 +4,8 @@ This is a monorepo for a self hosted soil moisture monitoring stack. The monitor
 is done with a Particle device collecting data from a capacitive soil moisture sensor
 and sent to an MQTT broker.
 
+![System diagram](images/system_diagram.png)
+
 ## Running the Stack
 
 ### Requirements

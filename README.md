@@ -25,7 +25,7 @@ docker-compose up -d
 ## Particle Firmware
 
 The firmware for the particle board is responsible for collecting the data
-from the sensor and send it to the MQTT broker (see below). Currently you
+from the sensor and sending it to the MQTT broker (see below). Currently you
 will need to edit the host manually yourself before flashing your device.
 
 The firmware uses QOS1 for messages and also handles managing disconnections automatically.

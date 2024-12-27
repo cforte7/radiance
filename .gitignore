@@ -4,3 +4,4 @@
 /docker_data
 /pantsbuild/particle-firmware/target/
 nul
+**/.vscode/

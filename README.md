@@ -1,4 +1,4 @@
-# Radiance Soil Monitoring
+# Radiance Garden Monitoring
 
 <img src="images/radiance.png" alt="radiance" width="200" />
 
@@ -6,9 +6,10 @@
 >
 > \- Radiance tool tip, Dota 2
 
-This is a monorepo for a self hosted soil moisture monitoring stack. The monitoring
+This is a monorepo for a self hosted garden monitoring stack. The monitoring currently
 is done with a Particle device collecting data from a capacitive soil moisture sensor
-and sent to an MQTT broker.
+and sent to an MQTT broker. This is an ongoing work with plans for additional sensors
+and functionality to be added later such as monitoring total sunlight.
 
 ## System Overview
 

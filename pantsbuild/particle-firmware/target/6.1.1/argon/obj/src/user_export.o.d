@@ -1,4 +1,4 @@
-/Users/christopherforte/Dev/particle-init/target/6.1.1/argon//obj/./src/user_export.o: \
+/Users/christopherforte/Dev/radiance/pantsbuild/particle-firmware/target/6.1.1/argon//obj/./src/user_export.o: \
  src/user_export.c \
  ../../../modules/shared/nRF52840/inc/user_part_export.c \
  ../../../modules/shared/nRF52840/inc/module_user_init.h \

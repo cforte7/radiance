@@ -1,4 +1,4 @@
-/Users/christopherforte/Dev/particle-init/target/6.1.1/argon//obj/./src/newlib_stubs.o: \
+/Users/christopherforte/Dev/radiance/pantsbuild/particle-firmware/target/6.1.1/argon//obj/./src/newlib_stubs.o: \
  src/newlib_stubs.cpp \
  ../../../modules/shared/nRF52840/inc/user-part/newlib_stubs.inc \
  /Users/christopherforte/.particle/toolchains/gcc-arm/10.2.1/arm-none-eabi/include/sys/types.h \

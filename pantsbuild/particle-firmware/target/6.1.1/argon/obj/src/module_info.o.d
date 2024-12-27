@@ -1,4 +1,4 @@
-/Users/christopherforte/Dev/particle-init/target/6.1.1/argon//obj/./src/module_info.o: \
+/Users/christopherforte/Dev/radiance/pantsbuild/particle-firmware/target/6.1.1/argon//obj/./src/module_info.o: \
  src/module_info.c ../../../dynalib/inc/module_info.inc \
  ../../../dynalib/inc/module_info.h ../../../services/inc/static_assert.h \
  /Users/christopherforte/.particle/toolchains/gcc-arm/10.2.1/arm-none-eabi/include/assert.h \

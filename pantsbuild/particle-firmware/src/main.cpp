@@ -15,10 +15,10 @@
 #define BROKER_PORT 5653
 #define ONE_DAY_MILLIS (24 * 60 * 60 * 1000)
 
-unsigned long lastSync = millis();
-// void callback(char* topic, byte* payload, unsigned int length);
+SerialLogHandler logHandler;
 
-// recieve message
+unsigned long lastSync = millis();
+
 void callback(char* topic, byte* payload, unsigned int length) {
   char p[length + 1];
   memcpy(p, payload, length);
@@ -39,70 +39,72 @@ MQTT client(BROKER_HOST, BROKER_PORT, callback);
 
 SYSTEM_MODE(AUTOMATIC);
 
-SerialLogHandler logHandler(LOG_LEVEL_INFO);
-
 int val = 0;
 
 char buf[1024];
 
 std::string generateUUID() {
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  std::uniform_int_distribution<> dis(0, 15);
+  auto randomHex = []() -> char {
+    const char hexChars[] = "0123456789abcdef";
+    return hexChars[random(0, 16)];
+  };
 
-  std::stringstream ss;
-  for (int i = 0; i < 32; ++i) {
-    if (i == 8 || i == 12 || i == 16 || i == 20) ss << "-";
-    ss << std::hex << dis(gen);
+  std::string uuid;
+  for (int i = 0; i < 20; ++i) {
+    if (i == 8 || i == 12 || i == 16) uuid += "-";
+    uuid += randomHex();
   }
-  return ss.str();
+  return uuid;
 }
 
-// void sync_time() {
-//   if (millis() - lastSync > ONE_DAY_MILLIS) {
-//     Particle.publish("Syncing time.");
-//     // Request time synchronization from the Particle Device Cloud
-//     Particle.syncTime();
-//     lastSync = millis();
-//     Particle.publish("Successfully synced time.");
-//   }
-// }
+void sync_time() {
+  if (millis() - lastSync > ONE_DAY_MILLIS) {
+    Particle.publish("Syncing time.");
+    // Request time synchronization from the Particle Device Cloud
+    Particle.syncTime();
+    lastSync = millis();
+    Particle.publish("Successfully synced time.");
+  }
+}
+
 void setup() {
   Serial.begin(9600);
-  Particle.publish("logging", "Setup starting.");
+  Log.info("Setup starting.");
   // sync_time();
   client.connect(System.deviceID());
-  Particle.publish("logging", "Device is connected.");
+  Log.info("Device is connected.");
 }
 
 char* create_payload() {
-  Particle.publish("logging", "Creating payload.");
+  Log.info("Creating payload.");
   val = analogRead(ANALOG_PIN);
-  String device_id = System.deviceID();
-  auto current_time = Time.now();
+  time32_t current_time = Time.now();
+  const char* uuid = generateUUID().c_str();
 
-  snprintf(buf, sizeof(buf), "[\"%s\", %ld, %d, \"%s\"]",
-           generateUUID().c_str(), current_time, val, device_id.c_str());
-  Particle.publish("logging", "Created payload with snprintf.");
+  // TODO: figure out why built in device_id function output was mangled
+  // and replace primary device with real id
+  snprintf(buf, sizeof(buf), "[\"%s\", %ld, %d, \"%s\"]", uuid, current_time,
+           val, "primary device");
+  Log.info("Created payload: %s.", buf);
   return buf;
 }
 
 void loop() {
-  Particle.publish("logging", "Loop starting...");
+  Log.info("Loop starting...");
   if (client.isConnected()) {
-    Particle.publish("logging", "Client is connected");
+    Log.info("Client is connected");
   } else {
-    Particle.publish("logging", "Client is NOT connected");
+    Log.info("Client is NOT connected");
   }
-  // sync_time();
-  // if (!client.isConnected()) {
-  //   Particle.publish("logging", "Client is disconnected. Reconnecting.");
-  //   client.connect(System.deviceID());
-  //     Particle.publish("logging", "Client has reconnected.");
-  // }
-  // char * payload = create_payload();
-  Particle.publish("logging", "Publishing data to MQTT broker.");
-  client.publish(LOG_TOPIC, "testdata");
-  Particle.publish("logging", "Delying now.");
+  sync_time();
+  if (!client.isConnected()) {
+    Log.info("Client is disconnected. Reconnecting.");
+    client.connect(System.deviceID());
+    Log.info("Client has reconnected.");
+  }
+  char* payload = create_payload();
+  Log.info("Publishing data to MQTT broker.");
+  client.publish(TOPIC, payload);
+  Log.info("Delying now for %d milliseconds.", DELAY_SECONDS);
   delay(DELAY_SECONDS);
 }

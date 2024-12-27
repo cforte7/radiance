@@ -2,3 +2,4 @@
 /.pants.d
 /dist/
 /docker_data
+/pantsbuild/particle-firmware/target/

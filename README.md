@@ -10,11 +10,14 @@ The firmware for the particle board is responsible for collecting the data
 from the sensor and send it to the MQTT broker (see below). Currently you
 will need to edit the host manually yourself before flashing your device.
 
-The firmware has QOS1 for messages and also handles managing disconnections automatically.
+The firmware uses QOS1 for messages and also handles managing disconnections automatically.
+Logs can be read via the serial port for debugging purposes.
 
 ### Firmware TODO
 
 - Batch up failed payloads so they can be retried later.
+- Figure out how to set MQTT host/port without editing source.
+- Figure out why particles built in device ID function returns invalid chars.
 
 ## MQTT Broker and Database
 
@@ -48,9 +51,9 @@ informational purposes, you write data by publishing messages to `db/append/tabl
 If using the schema above, will be `db/append/moisture`. with the content of:
 
 ```plaintext
-[["id_value", 1, 1.04, "device_id_1"], ["id_value2", 2, 9.44, "device_id_1"]]
+[["id_value", 1, 2678, "device_id_1"], ["id_value2", 2, 1296, "device_id_1"]]
 <!-- or -->
-["id_value2", 2, 9.44, "device_id_1"]
+["id_value2", 2, 2015, "device_id_1"]
 ```
 
 ### MQTT TODO

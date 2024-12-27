@@ -76,7 +76,7 @@ the below to the `db/query` topic.
 
 ### Writing Data
 
-For now writing data is typically handled by the particle firmware. However for
+For now writing data is only done by the particle firmware. However for
 informational purposes, you write data by publishing messages to `db/append/table_name`.
 If using the schema above, will be `db/append/moisture`. with the content of:
 

@@ -1,15 +1,18 @@
 # Radiance Garden Monitoring
 
+<div style={{'display': 'flex'}}>
 <img src="images/radiance.png" alt="radiance" width="200" />
 
 > "A divine weapon that causes damage and a bright burning effect that lays waste to nearby enemies."
 >
 > \- Radiance tool tip, Dota 2
+</div>
 
 This is a monorepo for a self hosted garden monitoring stack. The monitoring currently
 is done with a Particle device collecting data from a capacitive soil moisture sensor
 and sent to an MQTT broker. This is an ongoing work with plans for additional sensors
-and functionality to be added later such as monitoring total sunlight.
+and functionality such as monitoring total sunlight, controlling irrigation systems,
+etc.
 
 ## System Overview
 
@@ -41,7 +44,7 @@ The firmware uses QOS1 for messages and also handles managing disconnections aut
 Logs can be read via the serial port for debugging purposes.
 
 I am using an Argon board but I am sure a more recent version will do as well. This
-is currently done on OS 6.11.
+is currently done on OS 6.1.1.
 
 ### Firmware TODO
 

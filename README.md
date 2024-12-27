@@ -1,8 +1,15 @@
 # Radiance Soil Monitoring
 
+![radiance thumbnail](images/radiance.png)
+> "A divine weapon that causes damage and a bright burning effect that lays waste to nearby enemies."
+>
+> \- Radiance tool tip, Dota 2
+
 This is a monorepo for a self hosted soil moisture monitoring stack. The monitoring
 is done with a Particle device collecting data from a capacitive soil moisture sensor
 and sent to an MQTT broker.
+
+## System Overview
 
 ![System diagram](images/system_diagram.png)
 

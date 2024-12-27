@@ -8,6 +8,7 @@
 
 #define ANALOG_PIN A1
 #define DELAY_SECONDS 10000
+#define MQTT_RECONNECT_DELAY_SECONDS 10000
 #define DEVICE_ID "device_0"
 #define TOPIC "db/append/moisture"
 #define LOG_TOPIC "testtopic/message"
@@ -19,10 +20,12 @@ SerialLogHandler logHandler;
 
 unsigned long lastSync = millis();
 
+// placeholder from the library example. Not sure if I really want/need
+// to do anything with this.
 void callback(char* topic, byte* payload, unsigned int length) {
   char p[length + 1];
   memcpy(p, payload, length);
-  p[length] = NULL;
+  p[length] = '\0';
 
   if (!strcmp(p, "RED"))
     RGB.color(255, 0, 0);
@@ -67,12 +70,28 @@ void sync_time() {
   }
 }
 
+void connect_mqtt_broker() {
+  while (!client.isConnected()) {
+    Log.info("Client is disconnected. Trying to reconnect.");
+    bool result = client.connect(System.deviceID());
+    if (!result) {
+      Log.info("Reconnection failed. Trying again in %d ms.", MQTT_RECONNECT_DELAY_SECONDS);
+      delay(MQTT_RECONNECT_DELAY_SECONDS);
+    } else {
+      Log.info("Reconnection successful.");
+    }
+  }
+}
+
 void setup() {
   Serial.begin(9600);
   Log.info("Setup starting.");
-  // sync_time();
-  client.connect(System.deviceID());
-  Log.info("Device is connected.");
+  bool is_connected = client.connect(System.deviceID());
+  if (is_connected) {
+    Log.info("Initial MQTT successful.");
+  } else {
+    Log.error("Initial MQTT connection failed!");
+  }
 }
 
 char* create_payload() {
@@ -90,21 +109,20 @@ char* create_payload() {
 }
 
 void loop() {
-  Log.info("Loop starting...");
-  if (client.isConnected()) {
-    Log.info("Client is connected");
-  } else {
-    Log.info("Client is NOT connected");
-  }
+  Log.info("Loop starting.");
+  connect_mqtt_broker();
   sync_time();
-  if (!client.isConnected()) {
-    Log.info("Client is disconnected. Reconnecting.");
-    client.connect(System.deviceID());
-    Log.info("Client has reconnected.");
-  }
   char* payload = create_payload();
+
   Log.info("Publishing data to MQTT broker.");
-  client.publish(TOPIC, payload);
+  bool pub_res = client.publish(TOPIC, payload, MQTT::QOS1);
+  if (!pub_res) {
+    // TODO: implement batching for failed attempts to prevent data loss from
+    // temporary disconnections
+    Log.info("Failed to publish. Executing explicit disconnect from broker.");
+    client.disconnect();
+  }
+
   Log.info("Delying now for %d milliseconds.", DELAY_SECONDS);
   delay(DELAY_SECONDS);
 }
